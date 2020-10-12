@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ItensVendaService {
-    List<ItemVenda> itens;
+    List<ItemVenda> itens = new ArrayList<>();
 
     public ItensVendaService(List<ItemVenda> itens) {
         this.itens = itens;
     }
 
     public ItensVendaService() {
-        this(new ArrayList<>());
+        this(new ArrayList<ItemVenda>());
     }
 
     public void validaItemAdicionado(Produto produto, int quantidade) {
