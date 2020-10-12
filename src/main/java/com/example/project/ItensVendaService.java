@@ -1,12 +1,11 @@
 package com.example.project;
 
-import java.util.List;
 import java.util.ArrayList;
 
 public class ItensVendaService {
-    List<ItemVenda> itens = new ArrayList<>();
+    ArrayList<ItemVenda> itens = new ArrayList<>();
 
-    public ItensVendaService(List<ItemVenda> itens) {
+    public ItensVendaService(ArrayList<ItemVenda> itens) {
         this.itens = itens;
     }
 
