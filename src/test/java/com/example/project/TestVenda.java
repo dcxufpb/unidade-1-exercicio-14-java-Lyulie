@@ -208,7 +208,7 @@ public class TestVenda {
 
     private String nextLine = System.lineSeparator();
     private String DATAHORA = "11/11/1111 11:11:11V";
-    private String HIFENS = "-".repeat(30);
+    private String HIFENS = "------------------------------";
     
     String UND = UNIDADE;
     String VU = String.format("%.2f", VALOR_UNITARIO);
