@@ -1,14 +1,14 @@
 package com.example.project;
 
 public class Produto {
-    int codigo;
+    String codigo;
     String descricao;
     String unidade;
     double valorUnitario;
     String substituicaoTributaria;
 
     public Produto(
-        int codigo, //001
+        String codigo, //001
         String descricao, //nome_produto
         String unidade, //R$
         double valorUnitario, //00.00 
@@ -21,11 +21,11 @@ public class Produto {
         this.substituicaoTributaria = substituicaoTributaria;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return this.codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

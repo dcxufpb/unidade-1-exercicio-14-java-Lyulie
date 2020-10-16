@@ -33,33 +33,47 @@ public class TestVenda {
         }
     }
 
-    String MSG_ERR_LOJA_INVALIDA = "Loja é um campo obrigatório. Insira uma loja válida.";
-    String MSG_ERR_CCF_INVALIDO = "O CCF inserido não é válido.";
-    String MSG_ERR_COO_INVALIDO = "O COO inserido não é válido.";
-    String MSG_ERR_CCF = "O Contador de Cupom Fiscal (CCF) é obrigatório.";
-    String MSG_ERR_COO = "O Contador de Ordem de Operação (COO) é obrigatório.";
+    private String LOGRADOURO = "Rua 1";
+    private int NUMERO = 11;
+    private String COMPLEMENTO = "Complemento 1";
+    private String BAIRRO = "Bairro 1";
+    private String MUNICIPIO = "Municipio 1";
+    private String ESTADO = "Estado 1";
+    private String CEP = "11111-111";
+
+    private String NOME_LOJA = "Loja 1";
+    private String TELEFONE = "(11)1111-1111";
+    private String OBSERVACAO = "Observacao 1";
+    private String CPNJ = "123456789";
+    private String INSCRICAO_ESTADUAL = "987654321";
+ 
+    private String MSG_ERR_LOJA_INVALIDA = "Loja é um campo obrigatório. Insira uma loja válida.";
+    private String MSG_ERR_CCF_INVALIDO = "O CCF inserido não é válido.";
+    private String MSG_ERR_COO_INVALIDO = "O COO inserido não é válido.";
+    private String MSG_ERR_CCF = "O Contador de Cupom Fiscal (CCF) é obrigatório.";
+    private String MSG_ERR_COO = "O Contador de Ordem de Operação (COO) é obrigatório.";
 
     private Endereco enderecoSample = new Endereco(
-        "Rua 1", 
+        LOGRADOURO, 
         11, 
-        "Complemento 1", 
-        "Bairro 1", 
-        "Município 1", 
-        "Estado 1", 
-        "Cep 1"
+        COMPLEMENTO, 
+        BAIRRO, 
+        MUNICIPIO, 
+        ESTADO, 
+        CEP
     );
 
     private Loja lojaSample = new Loja(
-        "Loja 1",
+        NOME_LOJA,
         enderecoSample,
-        "(11)1111-1111",
-        "Observacao 1",
-        "987654321",
-        "123456789"
+        TELEFONE,
+        OBSERVACAO,
+        CPNJ,
+        INSCRICAO_ESTADUAL
     );
 
-    private int COO = 123456;
-    private int CCF = 123456;
+    private String COO = "123456";
+    private String CCF = "123456";
 
     private Venda vendaSample = new Venda(
         lojaSample,
@@ -67,13 +81,21 @@ public class TestVenda {
         COO
     );
 
+    String CODIGO = "001";
+    String DESCRICAO = "Banana";
+    String UNIDADE = "R$";
+    double VALOR_UNITARIO = 11.11;
+    String SUBSTITUICAO_TRIBUTARIA = "ST";
+
     private Produto produtoSample = new Produto(
-        001, 
-        "Maçã", 
-        "R$", 
-        11.11, 
-        "ST"
+        CODIGO, 
+        DESCRICAO, 
+        UNIDADE, 
+        VALOR_UNITARIO, 
+        SUBSTITUICAO_TRIBUTARIA
     );
+
+    private int QUANTIDADE = 4;
 
     /**
      * Testar Campos Obrigatórios
@@ -90,22 +112,22 @@ public class TestVenda {
     @Test
 	public void validarCCF() {
         Venda ccfVazio = vendaSample;
-        ccfVazio.setCcf(0);
+        ccfVazio.setCcf("");
         verificarCampoObrigatorio(MSG_ERR_CCF, ccfVazio);
 
         Venda ccfIncorreto = vendaSample;
-        ccfIncorreto.setCcf(12345);
+        ccfIncorreto.setCcf("12345");
         verificarCampoObrigatorio(MSG_ERR_CCF_INVALIDO, ccfIncorreto);
     }
 
     @Test
 	public void validarCOO() {
         Venda cooVazio = vendaSample;
-        cooVazio.setCoo(0);
+        cooVazio.setCoo("");
         verificarCampoObrigatorio(MSG_ERR_COO, cooVazio);
 
         Venda cooIncorreto = vendaSample;
-        cooIncorreto.setCoo(12345);
+        cooIncorreto.setCoo("12345");
         verificarCampoObrigatorio(MSG_ERR_COO_INVALIDO, cooIncorreto);
     }
 
@@ -182,5 +204,39 @@ public class TestVenda {
             valorUnitarioZeroInferior, 
             2
         );
+    }
+
+    private String nextLine = System.lineSeparator();
+    private String DATAHORA = "11/11/1111 11:11:11V";
+    private String HIFENS = "-".repeat(30);
+    
+    String UND = UNIDADE;
+    String VU = String.format("%.2f", VALOR_UNITARIO);
+    String ST = SUBSTITUICAO_TRIBUTARIA;
+    String QTD = String.valueOf(QUANTIDADE);
+    String TOTAL_ITEM_VENDA = String.valueOf(QUANTIDADE * VALOR_UNITARIO);
+
+    String TEXTO_ESPERADO_IMPRIMIR_CUPOM = NOME_LOJA + nextLine +
+    LOGRADOURO + ", " + NUMERO + " " + COMPLEMENTO + nextLine +
+    BAIRRO + " - " + MUNICIPIO + " - " + ESTADO + nextLine +
+    "CEP:" + CEP + " Tel " + TELEFONE + nextLine +
+    OBSERVACAO + nextLine +
+    "CNPJ: " + CPNJ + nextLine +
+    "IE: " + INSCRICAO_ESTADUAL + nextLine +
+    HIFENS + nextLine +
+    DATAHORA + " CCF: " + CCF + " COO: " + COO + nextLine +
+    "     CUPOM FISCAL     " + nextLine +
+    "ITEM CODIGO DESCRICAO QTD UN VL UNIT(R$) ST VL ITEM(R$)" + nextLine +
+    "1 " + CODIGO + " " + DESCRICAO + " " + QTD + " R$ " + VU + " " + ST + TOTAL_ITEM_VENDA + nextLine +
+    HIFENS + nextLine +
+    "TOTAL: R$ " + TOTAL_ITEM_VENDA;
+
+    @Test
+    public void impressaoCupom() {
+        Venda venda = vendaSample;
+        venda.adicionarItem(produtoSample, QUANTIDADE);
+        venda.setDataHora(DATAHORA);
+
+        assertEquals(TEXTO_ESPERADO_IMPRIMIR_CUPOM, venda.imprimirCupom());
     }
 }

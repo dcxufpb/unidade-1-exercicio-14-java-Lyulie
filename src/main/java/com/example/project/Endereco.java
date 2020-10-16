@@ -95,9 +95,11 @@ public class Endereco {
 		String _municipio = getMunicipio() + " - ";
         String _cep = Loja.isNullEmpty(getCep())? "" : "CEP:" + getCep();
         
+        String LN = Venda.LN;
+
         String output;
-        output = _logradouro + _numero + _complemento + "\n";
-        output += _bairro + _municipio + getEstado() + "\n";
+        output = _logradouro + _numero + _complemento + LN;
+        output += _bairro + _municipio + getEstado() + LN;
         output += _cep;
         
         return output;

@@ -61,7 +61,7 @@ public class ItensVendaService {
         for (ItemVenda item : itens) {
             stringfy = stringfy.equals("") ? 
                        (stringfy += item.dadosItem()) :
-                       (stringfy += "\n" + item.dadosItem());
+                       (stringfy += Venda.LN + item.dadosItem());
         }
         return stringfy;
     }

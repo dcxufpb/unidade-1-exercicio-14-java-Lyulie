@@ -8,11 +8,12 @@ import java.util.Locale;
 public class Venda {
     private Loja loja;
     private String datahora;
-    private int ccf;
-    private int coo;
+    private String ccf;
+    private String coo;
     private ItensVendaService itens;
+    public static final String LN = System.lineSeparator();
 
-    public Venda(Loja loja, int ccf, int coo) {
+    public Venda(Loja loja, String ccf, String coo) {
         this.loja = loja;
         this.ccf = ccf;
         this.coo = coo;
@@ -61,19 +62,19 @@ public class Venda {
         return dataFormat + " " + horaFormat + "V";
     }
 
-    public int getCcf() {
+    public String getCcf() {
         return this.ccf;
     }
 
-    public void setCcf(int ccf) {
+    public void setCcf(String ccf) {
         this.ccf = ccf;
     }
 
-    public int getCoo() {
+    public String getCoo() {
         return this.coo;
     }
 
-    public void setCoo(int coo) {
+    public void setCoo(String coo) {
         this.coo = coo;
     }
 
@@ -82,7 +83,7 @@ public class Venda {
     }
 
     public String  dadosItens() {
-        return "ITEM CODIGO DESCRICAO QTD UN VL UNIT(R$) ST VL ITEM(R$)\n" +
+        return "ITEM CODIGO DESCRICAO QTD UN VL UNIT(R$) ST VL ITEM(R$)" + LN +
                this.itens.toString();
     }
 
@@ -105,35 +106,37 @@ public class Venda {
         String dadosItens = dadosItens();
 
         String output;
-        output = dadosLoja;
+        output = "";
         for(int k = 0; k<30; k++) output += "-";
-        output += "\n" + dadosVenda;
+        output += LN + dadosVenda + LN;
         output += "     CUPOM FISCAL     ";
-        output += "\n" + dadosItens + "\n";
+        output += LN + dadosItens + LN;
         for(int k = 0; k<30; k++) output += "-";
-        output += "\nTOTAL: R$ " + this.itens.calcularTotal();
+        output += LN + "TOTAL: R$ " + this.itens.calcularTotal();
 
-        return output.replace("\n", System.lineSeparator());
+        return dadosLoja + output;
     }
 
     public void validarCamposObrigatorios() {
-        if(getCcf() == 0) {
+        if(getCcf().length() == 0) {
             throw new RuntimeException("O Contador de Cupom Fiscal (CCF) é obrigatório.");
         }
 
-        if(getCoo() == 0) {
-            throw new RuntimeException("O Contador de Ordem de Operação (COO) é obrigatório.");
-        }
-
-        if(String.format("%d",getCcf()).length() < 6) {
+        else if(getCcf().length() < 6) {
             throw new RuntimeException("O CCF inserido não é válido.");
         }
 
-        if(String.format("%d",getCoo()).length() < 6) {
+        if(getCoo().length() == 0) {
+            throw new RuntimeException("O Contador de Ordem de Operação (COO) é obrigatório.");
+        }
+        
+        else if(getCoo().length() < 6) {
             throw new RuntimeException("O COO inserido não é válido.");
         }
 
-        if(!(getLoja() instanceof Loja)) {
+        try {
+            String strLoja = getLoja().dadosLoja();
+        } catch (RuntimeException re) {
             throw new RuntimeException("Loja é um campo obrigatório. Insira uma loja válida.");
         }
     }

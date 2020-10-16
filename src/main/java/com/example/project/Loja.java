@@ -97,14 +97,16 @@ public class Loja {
 		String _cnpj = "CNPJ: " + getCnpj();
 		String _inscricao_estadual = "IE: " + getInscricaoEstadual();
 
-		String output = getNomeLoja() + "\n";
-        output += endereco.dadosEndereco();
-        output += _telefone + "\n";
-		output += _observacao + "\n";
-		output += _cnpj + "\n";
-		output += _inscricao_estadual + "\n";
+        String LN = Venda.LN;
 
-		return output.replace("\n", System.lineSeparator());
+		String output = getNomeLoja() + LN;
+        output += endereco.dadosEndereco();
+        output += _telefone + LN;
+		output += _observacao + LN;
+		output += _cnpj + LN;
+		output += _inscricao_estadual + LN;
+
+		return output;
     }
     
     public void validarCamposObrigatorios() {
